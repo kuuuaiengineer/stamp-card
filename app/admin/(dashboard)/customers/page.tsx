@@ -35,7 +35,8 @@ export default async function CustomersPage() {
               const lastVisit = histories.length > 0
                 ? histories.reduce((a, b) => a.granted_at > b.granted_at ? a : b).granted_at
                 : null
-              const stampCount = (c.stamps as { count: number }[] | null)?.[0]?.count ?? 0
+              const stampsData = c.stamps as { count: number } | { count: number }[] | null
+              const stampCount = Array.isArray(stampsData) ? (stampsData[0]?.count ?? 0) : (stampsData?.count ?? 0)
 
               return (
                 <tr key={c.id} className="hover:bg-gray-50">
