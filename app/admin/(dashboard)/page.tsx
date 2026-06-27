@@ -10,15 +10,15 @@ export default async function AdminDashboard() {
   today.setHours(0, 0, 0, 0)
 
   const [usersRes, todayRes] = await Promise.all([
-    supabase.from('users').select('id', { count: 'exact', head: true }),
+    supabase.from('users').select('id'),
     supabase
       .from('stamp_histories')
-      .select('id', { count: 'exact', head: true })
+      .select('id')
       .gte('granted_at', today.toISOString()),
   ])
 
-  const totalCustomers = usersRes.count ?? 0
-  const todayVisits = todayRes.count ?? 0
+  const totalCustomers = usersRes.data?.length ?? 0
+  const todayVisits = todayRes.data?.length ?? 0
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
   const visitUrl = `${siteUrl}/visit`
