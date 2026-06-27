@@ -1,10 +1,10 @@
-import { createServiceClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import RewardsClient from './RewardsClient'
 
 export const dynamic = 'force-dynamic'
 
 export default async function RewardsPage() {
-  const supabase = await createServiceClient()
+  const supabase = createAdminClient()
   const { data: rewards } = await supabase
     .from('rewards')
     .select('*')

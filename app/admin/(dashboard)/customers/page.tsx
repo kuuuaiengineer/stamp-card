@@ -1,9 +1,9 @@
-import { createServiceClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 
 export const dynamic = 'force-dynamic'
 
 export default async function CustomersPage() {
-  const supabase = await createServiceClient()
+  const supabase = createAdminClient()
 
   const { data: customers } = await supabase
     .from('users')

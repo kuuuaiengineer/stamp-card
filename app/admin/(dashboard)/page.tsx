@@ -1,10 +1,10 @@
-import { createServiceClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import QRDisplay from './QRDisplay'
 
 export const dynamic = 'force-dynamic'
 
 export default async function AdminDashboard() {
-  const supabase = await createServiceClient()
+  const supabase = createAdminClient()
 
   const today = new Date()
   today.setHours(0, 0, 0, 0)
@@ -16,9 +16,6 @@ export default async function AdminDashboard() {
       .select('id')
       .gte('granted_at', today.toISOString()),
   ])
-
-  console.log('users query:', JSON.stringify({ data: usersRes.data, error: usersRes.error }))
-  console.log('env check:', !!process.env.SUPABASE_SERVICE_ROLE_KEY)
 
   const totalCustomers = usersRes.data?.length ?? 0
   const todayVisits = todayRes.data?.length ?? 0
